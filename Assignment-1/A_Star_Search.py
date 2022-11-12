@@ -78,6 +78,9 @@ class Graph:
         for node in self.nodes.values():
             node.h = node.euclidean(d2)
 
+    def get_edge_cost(self, u, v):
+        return self.costs[f'{u.name}-{v.name}']
+
     # A* Search implementation
     def a_star_search(self, start, goal):
         self.calculate_heuristic(goal)
@@ -99,7 +102,7 @@ class Graph:
             for neighbor in curr.adjNode:
                 nn = neighbor.make_copy()
                 nn.update_parent(curr)
-                nn.update_cost(curr.cost + self.costs[f'{curr.name}-{nn.name}'])
+                nn.update_cost(curr.cost + self.get_edge_cost(curr, nn))
                 nn.f = nn.cost + nn.h
                 q.put(nn)
         return False
