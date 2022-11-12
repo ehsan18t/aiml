@@ -60,7 +60,7 @@ class Graph:
             node.h = node.euclidean(d2)
 
     # A* Search
-    def a_star(self, start, goal):
+    def a_star_search(self, start, goal):
         graph.calculate_heuristic(goal)
 
         q = PriorityQueue()
@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
     # A* Search Output
     # graph.print_graph()
-    if graph.a_star(start, goal):
+    if graph.a_star_search(start, goal):
         graph.print_path()
     else:
         print('No path found')
