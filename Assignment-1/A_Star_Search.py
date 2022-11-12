@@ -45,6 +45,25 @@ class Graph:
         self.nodes = {}
         self.costs = {}
         self.path = []
+        self.goal = None
+        self.start = None
+
+    def read_input(self, file):
+        f = open(file)
+        n = int(f.readline())
+        for i in range(n):
+            name, x, y = f.readline().strip().split()
+            self.add_node(Node(name, int(x), int(y)))
+        n = int(f.readline())
+        for i in range(n):
+            u, v, cost = f.readline().strip().split()
+            self.add_edge(u, v, int(cost))
+
+        # get start and goal node
+        start = f.readline().strip()
+        goal = f.readline().strip()
+        self.start = self.nodes[start]
+        self.goal = self.nodes[goal]
 
     def add_node(self, node):
         self.nodes[node.name] = node
@@ -59,7 +78,7 @@ class Graph:
         for node in self.nodes.values():
             node.h = node.euclidean(d2)
 
-    # A* Search
+    # A* Search implementation
     def a_star_search(self, start, goal):
         self.calculate_heuristic(goal)
 
@@ -107,26 +126,11 @@ def main():
     graph = Graph()
 
     # read input from file
-    f = open('input.txt')
-    n = int(f.readline())
-    for i in range(n):
-        name, x, y = f.readline().strip().split()
-        graph.add_node(Node(name, int(x), int(y)))
-    n = int(f.readline())
-    for i in range(n):
-        u, v, cost = f.readline().strip().split()
-        graph.add_edge(u, v, int(cost))
-
-    # get start and goal node
-    start = f.readline().strip()
-    goal = f.readline().strip()
-
-    start = graph.nodes[start]
-    goal = graph.nodes[goal]
+    graph.read_input('input.txt')
 
     # A* Search Output
     # graph.print_graph()
-    if graph.a_star_search(start, goal):
+    if graph.a_star_search(graph.start, graph.goal):
         graph.print_path()
     else:
         print('No path found')
