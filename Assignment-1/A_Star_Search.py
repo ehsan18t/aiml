@@ -44,6 +44,7 @@ class Node:
 class Graph:
     def __init__(self):
         self.nodes = {}
+        self.costs = {}
         self.path = []
 
     def add_node(self, node):
@@ -52,8 +53,8 @@ class Graph:
     def add_edge(self, u, v, cost):
         node_u = self.nodes[u]
         node_v = self.nodes[v]
-        node_v.update_cost(cost)
         node_u.add_adjNode(node_v)
+        self.costs[f'{u}-{v}'] = cost
 
     # A* Search 
     def a_star(self, start, goal):
@@ -74,14 +75,12 @@ class Graph:
                     curr = curr.parent
                 return True
 
-            # print(f'curr: {curr.name} {curr.f} -> ', end='')
             for neighbor in curr.adjNode:
                 nn = neighbor.make_copy()
                 nn.update_parent(curr)
-                nn.update_cost(curr.cost + neighbor.cost)
+                nn.update_cost(curr.cost + self.costs[f'{curr.name}-{nn.name}'])
                 nn.f = nn.cost + nn.h
                 q.put(nn)
-                # print(nn.name, nn.f)
         return False
 
     def print_path(self):
@@ -102,7 +101,6 @@ class Graph:
             print()
 
 
-
 if __name__ == '__main__':
     graph = Graph()
 
@@ -117,7 +115,6 @@ if __name__ == '__main__':
         u, v, cost = f.readline().strip().split()
         graph.add_edge(u, v, int(cost))
 
-
     # get start and goal node
     start = f.readline().strip()
     goal = f.readline().strip()
@@ -125,30 +122,10 @@ if __name__ == '__main__':
     start = graph.nodes[start]
     goal = graph.nodes[goal]
 
+    # A* Search Output
     # graph.print_graph()
-    result = graph.a_star(start, goal)
-    if result:
+    if graph.a_star(start, goal):
         graph.print_path()
+        pass
     else:
         print('No path found')
-    
-    # graph.print_graph()
-    # graph.print_path()
-    # g = graph.nodes[goal.name]
-    # while g.name != goal.name:
-    #     print(goal.name, end=' -> ')
-    #     g = graph.nodes[g.parent.name]
-    
-    # for node in graph.nodes.values():
-    #     if node.name == start.name:
-    #         print(node.name, node.cost, node.f, node.h)
-    #         continue
-    #     print(node.name, node.parent.name , node.cost, node.f, node.h)
-
-    # output
-    # if found:
-    # else:
-    #     print('Solution path', end=' ')
-    #     graph.print_path()
-    #     print('Solution cost', end=' ')
-    #     print(graph.get_cost)
