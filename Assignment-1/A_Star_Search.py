@@ -61,7 +61,7 @@ class Graph:
 
     # A* Search
     def a_star_search(self, start, goal):
-        graph.calculate_heuristic(goal)
+        self.calculate_heuristic(goal)
 
         q = PriorityQueue()
         start.cost = 0
@@ -103,7 +103,7 @@ class Graph:
             print()
 
 
-if __name__ == '__main__':
+def main():
     graph = Graph()
 
     # read input from file
@@ -130,3 +130,7 @@ if __name__ == '__main__':
         graph.print_path()
     else:
         print('No path found')
+
+
+# main call
+main()
