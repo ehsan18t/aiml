@@ -28,9 +28,6 @@ class Node:
         n.adjNode = self.adjNode
         return n
 
-    def make_copy_fresh(self):
-        return Node(self.name, self.x, self.y)
-
     def euclidean(self, d2):
         return math.sqrt((self.x - d2.x)**2 + (self.y - d2.y)**2)
 
@@ -62,8 +59,9 @@ class Graph:
         for node in self.nodes.values():
             node.h = node.euclidean(d2)
 
-    # A* Search 
+    # A* Search
     def a_star(self, start, goal):
+        graph.calculate_heuristic(goal)
 
         q = PriorityQueue()
         start.cost = 0
@@ -89,13 +87,13 @@ class Graph:
 
     def print_path(self):
         n = len(self.path)
-        print('Solution path', end=' ')
+        print('Path:', end=' ')
         for i in range(n):
             node = self.path.pop()
             print(node.name, end='')
             if i != n-1:
-                print('-', end='')
-        print('\nSolution cost', node.cost)
+                print(' -> ', end='')
+        print('\nCost:', node.cost)
 
     def print_graph(self):
         for node in self.nodes.values():
@@ -128,9 +126,7 @@ if __name__ == '__main__':
 
     # A* Search Output
     # graph.print_graph()
-    graph.calculate_heuristic(goal)
     if graph.a_star(start, goal):
         graph.print_path()
-        pass
     else:
         print('No path found')
