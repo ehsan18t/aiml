@@ -23,6 +23,8 @@ class Node:
 
     def make_copy(self):
         n = Node(self.name, self.x, self.y)
+        n.h = self.h
+        n.f = self.f
         n.adjNode = self.adjNode
         return n
 
@@ -56,14 +58,16 @@ class Graph:
         node_u.add_adjNode(node_v)
         self.costs[f'{u}-{v}'] = cost
 
+    def calculate_heuristic(self, d2):
+        for node in self.nodes.values():
+            node.h = node.euclidean(d2)
+
     # A* Search 
     def a_star(self, start, goal):
-        for node in self.nodes.values():
-            node.h = node.euclidean(goal)
 
         q = PriorityQueue()
-        start.f = start.h
         start.cost = 0
+        start.f = start.h
         start.update_parent(None)
         q.put(start)
 
@@ -124,6 +128,7 @@ if __name__ == '__main__':
 
     # A* Search Output
     # graph.print_graph()
+    graph.calculate_heuristic(goal)
     if graph.a_star(start, goal):
         graph.print_path()
         pass
