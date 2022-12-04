@@ -2,7 +2,7 @@ from numpy import genfromtxt
 import random
 import math
 
-random.seed(100)
+# random.seed(36)
 
 def csv_to_list(path):
     my_data = genfromtxt(path, delimiter=',')
@@ -44,33 +44,26 @@ def knn_classification(K, train, val):
         L.sort(key=lambda x: x[1])
 
         # Separating first K sample data
-        A = []
+        A = []  # only contains major
         for i in range(K):
             A.append(int(L[i][0][-1]))  # L[i][0] == T &  L[i][1] == distance
 
         # majority class from the K samples
-        E0 = E1 = E2 = 0
-        major = 0
+        majors = {}
+        major = -1
 
+        # counting major
         for i in range(K):
-            if(A[i]== 0):
-                E0+=1
-            elif A[i]== 1:
-                E1+=1
-            else:
-                E2+=1
+            majors[A[i]] = majors.get(A[i], 0) + 1
 
-        if E0>=E1 and E0>=E2:
-            major = 0
-        elif E1>=E0 and E1>=E2:
-            major = 1
-        else:
-            major = 2
+        # finding major
+        for key in majors:
+            if majors[key] > major:
+                major = key
 
         # Checking
-        for V in val:
-            if(V[-1]==major):
-                validated_sample+=1
+        if(V[-1]==major):
+            validated_sample+=1
     totalCount = len(val)
     cvAccuracy = (validated_sample/totalCount)*100;
 
