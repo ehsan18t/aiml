@@ -29,11 +29,10 @@ def euclidean(V, T):
     return math.sqrt(total)
 
 def knn_regression(K, train, val):
-    L = []
     Error = 0
 
-    # find distance
     for V in val:
+        L = []
         for T in train:
             d = euclidean(V, T)
             L.append([T,d])
