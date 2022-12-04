@@ -38,34 +38,22 @@ def knn_regression(K, train, val):
             d = euclidean(V, T)
             L.append([T,d])
 
-    # sort asc distance
-    L.sort(key=lambda x: x[1])
+        # sort asc distance
+        L.sort(key=lambda x: x[1])
 
-    # Separating first K sample data
-    A = []
-    for i in range(K):
-        A.append(L[i])
+        # Separating first K sample data
+        A = []
+        for i in range(K):
+            A.append(L[i])
 
-    Avg = []
-    size = len(A[0][0])
-    # init avg with 0
-    for i in range(size):
-        Avg.append(0)
+        # avg calculation
+        Avg = 0
+        for i in range(K):
+            Avg+=A[i][0][-1]
+        Avg/=K
 
-    # sum all value
-    for i in range(K):
-        for j in range(size):
-            Avg[j]+=A[i][0][j]
-
-    # calculate avg
-    for i in range(size):
-        Avg[i]/=K
-
-    # calculate sum of error
-    Sum = 0.0
-    for i in range(size):
-        Sum += ((V[i]-Avg[i])**2)
-    Error+=Sum
+        # calculate sum of error
+        Error+=Avg
 
     MeanSquareError = Error / len(val)
     return MeanSquareError
