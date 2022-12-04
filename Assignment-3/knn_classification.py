@@ -2,7 +2,7 @@ from numpy import genfromtxt
 import random
 import math
 
-random.seed(32)
+# random.seed(32)
 
 def csv_to_list(path):
     my_data = genfromtxt(path, delimiter=',')
@@ -25,7 +25,7 @@ def split_datasets(data):
 
 def euclidean(V, T):
     total = 0
-    size = len(V) - 2
+    size = len(V) - 2   # major won't be get included
     for i in range(size):
         total += ((V[i] - T[i])**2)
     return math.sqrt(total)
@@ -52,16 +52,8 @@ def knn_classification(K, train, val):
             if L[i][0][-1] != A[i]:
                 print(L[i], "|", A[i])
 
-        # counting major
-        majors = {}
-        major = -1
-        for i in range(K):
-            majors[A[i]] = majors.get(A[i], 0) + 1
-
         # finding major
-        for key in majors:
-            if majors[key] > major:
-                major = key
+        major = max(A, key=A.count)
 
         # Checking
         if(V[-1]==major):
@@ -74,7 +66,7 @@ def knn_classification(K, train, val):
 def main():
     # KNN Classification
     # load data
-    K = [5]
+    K = [1, 3, 5, 10, 15]
     accuracy = []
     data = csv_to_list('iris.csv')
     train, test, val = split_datasets(data)
