@@ -2,7 +2,7 @@ from numpy import genfromtxt
 import random
 import math
 
-# random.seed(32)
+random.seed(23)
 
 def csv_to_list(path):
     my_data = genfromtxt(path, delimiter=',')
@@ -12,7 +12,6 @@ def split_datasets(data):
     Train_set = []
     Val_set = []
     Test_set = []
-    random.seed(0)
     for i in range(len(data)):
         R = random.uniform(0.0,1.0)
         if(R>=0 and R<=0.7):
