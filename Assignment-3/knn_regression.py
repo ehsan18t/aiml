@@ -2,6 +2,8 @@ from numpy import genfromtxt
 import random
 import math
 
+random.seed(34)
+
 def csv_to_list(path):
     my_data = genfromtxt(path, delimiter=',')
     return my_data.tolist()
@@ -10,7 +12,6 @@ def split_datasets(data):
     Train_set = []
     Val_set = []
     Test_set = []
-    # random.seed(0)
     for i in range(len(data)):
         R = random.uniform(0.0,1.0)
         if(R>=0 and R<=0.7):
@@ -54,8 +55,7 @@ def knn_regression(K, train, val):
         # calculate sum of error
         Error+=(V[-1] - Avg)**2
 
-    MeanSquareError = Error / len(val)
-    return MeanSquareError
+    return Error / len(val)
 
 def main():
     # KNN Regression
