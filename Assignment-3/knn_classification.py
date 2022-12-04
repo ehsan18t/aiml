@@ -32,7 +32,6 @@ def euclidean(V, T):
 def knn_classification(K, train, val):
     validated_sample = 0
 
-    # find distance
     for V in val:
         L = []
         for T in train:
