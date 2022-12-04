@@ -42,14 +42,12 @@ def knn_regression(K, train, val):
         L.sort(key=lambda x: x[1])
 
         # Separating first K sample data
-        A = []
-        for i in range(K):
-            A.append(L[i])
+        A = L[:K]
 
         # avg calculation
         Avg = 0
         for i in range(K):
-            Avg+=A[i][0][-1]
+            Avg+=A[i][0][-1]    # L[i][0] == T &  L[i][1] == distance
         Avg/=K
 
         # calculate sum of error
