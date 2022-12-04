@@ -47,10 +47,6 @@ def knn_classification(K, train, val):
         for i in range(K):
             A.append(int(L[i][0][-1]))  # L[i][0] == T &  L[i][1] == distance
 
-        for i in range(K):
-            if L[i][0][-1] != A[i]:
-                print(L[i], "|", A[i])
-
         # finding major
         major = max(A, key=A.count)
 
