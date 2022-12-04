@@ -21,6 +21,13 @@ def split_datasets(data):
             Test_set.append(data[i])
     return Train_set, Val_set, Test_set
 
+def euclidean(V, T):
+    total = 0
+    size = len(V) - 2   # major won't be get included
+    for i in range(size):
+        total += ((V[i] - T[i])**2)
+    return math.sqrt(total)
+
 def knn_regression(K, train, val):
     L = []
     Error = 0
@@ -28,10 +35,8 @@ def knn_regression(K, train, val):
     # find distance
     for V in val:
         for T in train:
-            sum = 0;
             for i in range(len(V)-1):
-                sum += ((V[i]-T[i])**2)
-                d = math.sqrt(sum);
+                d = euclidean(V, T)
                 L.append([T,d])
 
     # sort asc distance
