@@ -52,7 +52,7 @@ def knn_regression(K, train, val):
         Avg/=K
 
         # calculate sum of error
-        Error+=Avg
+        Error+=(V[-1] - Avg)**2
 
     MeanSquareError = Error / len(val)
     return MeanSquareError
