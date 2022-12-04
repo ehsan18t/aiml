@@ -23,7 +23,7 @@ def split_datasets(data):
 
 def euclidean(V, T):
     total = 0
-    size = len(V) - 2   # major won't be get included
+    size = len(V) - 2   # last col won't be get included
     for i in range(size):
         total += ((V[i] - T[i])**2)
     return math.sqrt(total)
