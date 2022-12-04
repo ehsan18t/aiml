@@ -2,6 +2,8 @@ from numpy import genfromtxt
 import random
 import math
 
+random.seed(100)
+
 def csv_to_list(path):
     my_data = genfromtxt(path, delimiter=',')
     return my_data.tolist()
@@ -10,7 +12,7 @@ def split_datasets(data):
     Train_set = []
     Val_set = []
     Test_set = []
-    # random.seed(0)
+    random.seed(0)
     for i in range(len(data)):
         R = random.uniform(0.0,1.0)
         if(R>=0 and R<=0.7):
@@ -21,50 +23,56 @@ def split_datasets(data):
             Test_set.append(data[i])
     return Train_set, Val_set, Test_set
 
+def euclidean(V, T):
+    total = 0
+    size = len(V) - 2
+    for i in range(size):
+        total += ((V[i] - T[i])**2)
+    return math.sqrt(total)
+
 def knn_classification(K, train, val):
-    L = []
+    validated_sample = 0
 
     # find distance
-    for V in val :
+    for V in val:
+        L = []
         for T in train:
-            d = math.sqrt(((V[0]-T[0])**2)+((V[1]-T[1])**2)+((V[2]-T[2])**2)+((V[3]-T[3])**2));
+            d = euclidean(V, T)
             L.append([T,d])
 
-    # sort asc distance
-    L.sort(key=lambda x: x[1])
+        # sort asc distance
+        L.sort(key=lambda x: x[1])
 
-    # Separating first K sample data
-    A = []
-    for i in range(K):
-        A.append(int(L[i][0][4]))
-    
-    # majority class from the K samples
-    E0 = E1 = E2 = 0
-    major = 0
+        # Separating first K sample data
+        A = []
+        for i in range(K):
+            A.append(int(L[i][0][-1]))  # L[i][0] == T &  L[i][1] == distance
 
-    for i in range(K):
-        if(A[i]== 0):
-            E0+=1
-        elif A[i]== 1:
-            E1+=1
-        else:
-            E2+=1
-
-    if E0>=E1 and E0>=E2:
+        # majority class from the K samples
+        E0 = E1 = E2 = 0
         major = 0
-    elif E1>=E0 and E1>=E2:
-        major = 1
-    else:
-        major = 2
 
-    # Checking
-    currentCount = 0
+        for i in range(K):
+            if(A[i]== 0):
+                E0+=1
+            elif A[i]== 1:
+                E1+=1
+            else:
+                E2+=1
 
-    for V in val:
-        if(V[4]==major):
-            currentCount+=1
+        if E0>=E1 and E0>=E2:
+            major = 0
+        elif E1>=E0 and E1>=E2:
+            major = 1
+        else:
+            major = 2
+
+        # Checking
+        for V in val:
+            if(V[-1]==major):
+                validated_sample+=1
     totalCount = len(val)
-    cvAccuracy = (currentCount/totalCount) *100;
+    cvAccuracy = (validated_sample/totalCount)*100;
 
     # output
     return cvAccuracy
