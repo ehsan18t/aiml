@@ -23,7 +23,7 @@ def split_datasets(data):
 
 def euclidean(V, T):
     total = 0
-    size = len(V) - 2   # last col won't be get included
+    size = len(V) - 2   # last won't be get included
     for i in range(size):
         total += ((V[i] - T[i])**2)
     return math.sqrt(total)
@@ -35,9 +35,8 @@ def knn_regression(K, train, val):
     # find distance
     for V in val:
         for T in train:
-            for i in range(len(V)-1):
-                d = euclidean(V, T)
-                L.append([T,d])
+            d = euclidean(V, T)
+            L.append([T,d])
 
     # sort asc distance
     L.sort(key=lambda x: x[1])
