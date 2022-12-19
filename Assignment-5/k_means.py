@@ -84,6 +84,13 @@ def k_means_clustering(data, k):
         centers = new_centers
     return clusters
 
+def find_inertia(data, clusters, centers):
+    inertia = 0
+    for i in range(len(clusters)):
+        for j in clusters[i]:
+            inertia += euclidean_distance(data[j], centers[i])
+    return inertia
+
 def plot_clusters(data, clusters):
     colors = ['r', 'g', 'b', 'y', 'c', 'm', 'k']
     for i in range(len(clusters)):
@@ -99,4 +106,5 @@ def main():
     k = 4
     clusters = k_means_clustering(data, k)
     plot_clusters(data, clusters)
+    print("Inertia: ", find_inertia(data, clusters, find_new_centers(data, clusters)))
 main()
