@@ -11,10 +11,21 @@ def csv_to_list(path):
     return my_data.tolist()
 
 def find_random_centers(data, k):
-    centers = []
+    temp_centers = set()
     total_data = len(data)
+    centers = []
+
+    # finding random center
+    for i in data:
+        d = random.randint(0,total_data-1)
+        temp_centers.add((data[d][0], data[d][1]))
+        if(len(temp_centers)==k):
+            break
+
+    # adding center to center list
     for i in range(k):
-        centers.append(data[random.randint(0, total_data - 1)])
+        centers.append(temp_centers.pop())
+
     return centers
 
 def init_clusters(k):
@@ -27,7 +38,7 @@ def euclidean_distance(p1, p2):
     # p2 given values, p1 calculated centers
     return math.sqrt(((p1[0] - p2[0]) ** 2) + ((p1[1] - p2[1]) ** 2))
 
-def assign_cluster(data, center):
+def assign_cluster(data, center, prev_clusters=None):
     clusters = init_clusters(len(center))
     for i in range(len(data)):
         min_dist = sys.maxsize
