@@ -88,9 +88,9 @@ def plot_clusters(data, clusters):
     colors = ['r', 'g', 'b', 'y', 'c', 'm', 'k']
     for i in range(len(clusters)):
         cluster = clusters[i]
-        color = colors[i % len(colors)]
+        color = colors[i]
         for j in cluster:
-            plt.scatter(data[j][0], data[j][1], c=color)
+            plt.scatter(data[j][0], data[j][1], c=color, label="Cluster "+str(i))
     plt.show()
 
 def main():
