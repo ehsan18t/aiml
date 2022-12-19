@@ -76,11 +76,12 @@ def is_centers_changed(old_centers, new_centers):
 def k_means_clustering(data, k):
     centers = find_random_centers(data, k)
     clusters = assign_cluster(data, centers)
-    new_centers = find_new_centers(data, clusters)
-    while is_centers_changed(centers, new_centers):
-        centers = new_centers
+    while True:
         clusters = assign_cluster(data, centers)
         new_centers = find_new_centers(data, clusters)
+        if not is_centers_changed(centers, new_centers):
+            break
+        centers = new_centers
     return clusters
 
 def plot_clusters(data, clusters):
