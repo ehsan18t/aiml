@@ -38,7 +38,7 @@ def euclidean_distance(p1, p2):
     # p2 given values, p1 calculated centers
     return math.sqrt(((p1[0] - p2[0]) ** 2) + ((p1[1] - p2[1]) ** 2))
 
-def assign_cluster(data, center, prev_clusters=None):
+def assign_cluster(data, center):
     clusters = init_clusters(len(center))
     for i in range(len(data)):
         min_dist = sys.maxsize
